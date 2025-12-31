@@ -120,10 +120,55 @@
             "args": "luaFile:String, funcName:String, ?args:Array\u003cDynamic\u003e = null",
             "documentation": "Calls a function on specific lua script"
         },
+        "makeLuaCamera": {
+            "returns": "void",
+            "args": "tag:String, ?defaultDrawTarget:Bool = false",
+            "documentation": "Creates a new Lua-accessible camera and registers it for later use."
+        },
         "cameraFade": {
             "returns": "void",
-            "args": "camera:String, color:String, duration:Float,forced:Bool",
-            "documentation": "* `camera` - \"game\",\"hud\" or \"other\"\n* `color` - color of fade\n* `duration` - Time duration for it to fade\n* `forced` - restarts fade or not"
+            "args": "camera:String, color:String, duration:Float, forced:Bool, ?fadeOut:Bool = false",
+            "documentation": "Fades an identified camera."
+        },
+        "setCameraScroll": {
+            "returns": "void",
+            "args": "x:Float, y:Float",
+            "documentation": "Set the Game Camera's current scroll position."
+        },
+        "setCameraFollowPoint": {
+            "returns": "void",
+            "args": "x:Float, y:Float",
+            "documentation": "Set the Game Camera's follow point position."
+        },
+        "addCameraScroll": {
+            "returns": "void",
+            "args": "?x:Float = 0, ?y:Float = 0",
+            "documentation": "Adds X/Y to the Game Camera's current scroll position."
+        },
+        "addCameraFollowPoint": {
+            "returns": "void",
+            "args": "?x:Float = 0, ?y:Float = 0",
+            "documentation": "Adds X/Y to the Game Camera's follow point position."
+        },
+        "getCameraScrollX": {
+            "returns": "number",
+            "args": "",
+            "documentation": "Returns Game Camera's current scroll X, float value."
+        },
+        "getCameraScrollY": {
+            "returns": "number",
+            "args": "",
+            "documentation": "Returns Game Camera's current scroll Y, float value."
+        },
+        "getCameraFollowX": {
+            "returns": "number",
+            "args": "",
+            "documentation": "Returns Game Camera's follow point X, float value."
+        },
+        "getCameraFollowY": {
+            "returns": "number",
+            "args": "",
+            "documentation": "Returns Game Camera's follow point Y, float value."
         },
         "cameraFlash": {
             "returns": "void",
@@ -386,11 +431,26 @@
             "args": "obj:String, index:Int, variable:Dynamic, ?allowMaps:Bool = false",
             "documentation": "Gets a variable from an array/group member on PlayState.\n* `obj` - Group/Array variable\n* `index` - Member ID\n* `variable` - Variable to get the value\n\nExample: To get the next event note's strum Time, you should use `getPropertyFromGroup('eventNotes', 0, 0)`\n\nExample 2: To get the next unspawned note's noteData, you should use `getPropertyFromGroup('unspawnNotes', 0, 'noteData')`"
         },
+        "addToGroup": {
+            "returns": "void",
+            "args": "group:String, tag:String, ?index:Int = -1",
+            "documentation": "Adds an object to a group."
+        },
         "getPropertyLuaSprite": {
             "returns": "?",
             "args": "tag:String, variable:String",
             "documentation": "Gets a property of lua sprite",
             "deprecated": "Use `getProperty` instead."
+        },
+        "addAnimationByFrameLabel": {
+            "returns": "void",
+            "args": "tag:String, name:String, label:String, ?framerate:Int = 24, ?loop:Bool = true",
+            "documentation": "Adds an animation from a frame label."
+        },
+        "addAnimationByFrameLabelIndices": {
+            "returns": "void",
+            "args": "tag:String, name:String, label:String, indices:String, ?framerate:Int = 24, ?loop:Bool = true",
+            "documentation": "Adds an animation from a frame label using specific frame indices."
         },
         "getRandomBool": {
             "returns": "boolean",
@@ -472,6 +532,16 @@
             "args": "tag:String",
             "documentation": "* `tag` - Sound tag, leave this field empty if you want get the Background music's volume instead"
         },
+        "getSoundPitch": {
+            "returns": "number",
+            "args": "tag:String",
+            "documentation": "Returns a Lua Sound's pitch shift, if missing, it returns 1."
+        },
+        "setSoundPitch": {
+            "returns": "void",
+            "args": "tag:String, value:Float, ?doPause:Bool = false",
+            "documentation": "Sets a Lua Sound's pitch shift."
+        },
         "getTextFont": {
             "returns": "string",
             "args": "tag:String",
@@ -502,6 +572,36 @@
             "args": "varName:String",
             "documentation": "Gets a Lua variable from PlayState."
         },
+        "addHScript": {
+            "returns": "void",
+            "args": "scriptFile:String, ?ignoreAlreadyRunning:Bool = false",
+            "documentation": "Initializes a specific HScript found at the path."
+        },
+        "removeHScript": {
+            "returns": "boolean",
+            "args": "scriptFile:String",
+            "documentation": "Stops a specific HScript running. Returns true if the Script was found and was running."
+        },
+        "setOnScripts": {
+            "returns": "void",
+            "args": "varName:String, value:Dynamic, ?ignoreSelf:Bool = false, ?exclusions:Array<String> = null",
+            "documentation": "Saves/Overwrites a global variable to all Lua Script/HScript running currently."
+        },
+        "setOnHScript": {
+            "returns": "void",
+            "args": "varName:String, value:Dynamic, ?ignoreSelf:Bool = false, ?exclusions:Array<String> = null",
+            "documentation": "Structurally identical to 'setOnScripts', but it does not insert the variable into Lua Scripts running."
+        },
+        "callOnScripts": {
+            "returns": "?",
+            "args": "funcName:String, ?args:Array<Dynamic> = null, ?ignoreStops:Bool = false, ?ignoreSelf:Bool = true, ?excludeScripts:Array<String> = null, ?excludeValues:Array<Dynamic> = null",
+            "documentation": "Calls a function in all Lua Scripts and HScript running."
+        },
+        "callOnHScript": {
+            "returns": "?",
+            "args": "funcName:String, ?args:Array<Dynamic> = null, ?ignoreStops:Bool = false, ?ignoreSelf:Bool = true, ?excludeScripts:Array<String> = null, ?excludeValues:Array<Dynamic> = null",
+            "documentation": "Structurally identical to 'callOnScripts', but it does not call the function in Lua Scripts."
+        },
         "initLuaShader": {
             "returns": "void",
             "args": "name:String, glslVersion:Int = 120",
@@ -521,6 +621,56 @@
             "returns": "boolean",
             "args": "luaFile:String",
             "documentation": "Checks if specific lua script is running"
+        },
+        "backJustPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android back button was just pressed."
+        },
+        "backPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android back button is being held."
+        },
+        "backJustReleased": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android back button was just released."
+        },
+        "menuJustPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android menu button was just pressed."
+        },
+        "menuPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android menu button is being held."
+        },
+        "menuJustReleased": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the Android menu button was just released."
+        },
+        "getCurrentOrientation": {
+            "returns": "string",
+            "args": "",
+            "documentation": "Returns the current screen orientation as a string."
+        },
+        "setOrientation": {
+            "returns": "void",
+            "args": "hint:String",
+            "documentation": "Sets the screen orientation."
+        },
+        "minimizeWindow": {
+            "returns": "void",
+            "args": "",
+            "documentation": "Minimizes the app window (sends to background)."
+        },
+        "showToast": {
+            "returns": "void",
+            "args": "text:String, duration:Int, ?xOffset:Int = 0, ?yOffset:Int = 0",
+            "documentation": "Shows an Android toast notification."
         },
         "keyJustPressed": {
             "returns": "boolean",
@@ -556,6 +706,11 @@
             "returns": "void",
             "args": "variable:String, image:String, spriteType:String = \"sparrow\"",
             "documentation": "Loads frames from some image"
+        },
+        "loadMultipleFrames": {
+            "returns": "void",
+            "args": "tag:String, images:Array<String>",
+            "documentation": "Loads multiple spritesheets to a Lua Sprite."
         },
         "loadGraphic": {
             "returns": "void",
@@ -605,6 +760,21 @@
             "returns": "boolean",
             "args": "tag:String",
             "documentation": "Checks if specifc lua text object exists"
+        },
+        "getTextHeight": {
+            "returns": "number",
+            "args": "tag:String",
+            "documentation": "Returns the Text's max height. Throws an error if the text object is missing and returns 0."
+        },
+        "setTextHeight": {
+            "returns": "boolean",
+            "args": "tag:String, height:Float",
+            "documentation": "Changes a Text's max height (in pixels). Returns true if the operation was successful."
+        },
+        "setTextAutoSize": {
+            "returns": "boolean",
+            "args": "tag:String, value:Bool",
+            "documentation": "Changes a Text's Auto Size property. Returns true if the operation was successful."
         },
         "makeAnimatedLuaSprite": {
             "returns": "void",
@@ -675,6 +845,111 @@
             "returns": "void",
             "args": "tag:String, note:Int, value:Dynamic, duration:Float, ease:String",
             "documentation": "Do a tween on a receptor's Y position\n* `tag` - Once the tween is finished, it will do a callback of `onTweenCompleted(tag)`\n* `note` - Opponent's notes are 0, 1, 2 and 3, respectively. Boyfriend's notes are 4, 5, 6, 7 respectively.\n* `value` - Target value on the tween end\n* `duration` - How much time it will take for the tween to end\n* `ease` - The tweening method used, example: `linear`, `circInOut`. Check the link on the note in the first line of this page"
+        },
+        "extraButtonPressed": {
+            "returns": "boolean",
+            "args": "?button:String = 'first'",
+            "documentation": "Returns whether an extra mobile control button is currently being held."
+        },
+        "extraButtonJustPressed": {
+            "returns": "boolean",
+            "args": "?button:String = 'first'",
+            "documentation": "Returns whether an extra mobile control button was just pressed in this frame."
+        },
+        "extraButtonJustReleased": {
+            "returns": "boolean",
+            "args": "?button:String = 'first'",
+            "documentation": "Returns whether an extra mobile control button was just released in this frame."
+        },
+        "extraButtonReleased": {
+            "returns": "boolean",
+            "args": "?button:String = 'first'",
+            "documentation": "Returns whether an extra mobile control button is not being pressed (released)."
+        },
+        "vibrate": {
+            "returns": "void",
+            "args": "duration:Int, ?period:Int = 0",
+            "documentation": "Makes the device vibrate for the specified duration."
+        },
+        "addTouchPad": {
+            "returns": "void",
+            "args": "DPadMode:String, ActionMode:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1",
+            "documentation": "Adds a customizable touchpad to the screen."
+        },
+        "removeTouchPad": {
+            "returns": "void",
+            "args": "",
+            "documentation": "Removes the currently active touchpad."
+        },
+        "addTouchPadCamera": {
+            "returns": "void",
+            "args": "?defaultDrawTarget:Bool = false",
+            "documentation": "Adds a camera specifically for the touchpad."
+        },
+        "touchPadJustPressed": {
+            "returns": "boolean",
+            "args": "button:Dynamic",
+            "documentation": "Returns whether a touchpad button was just pressed in this frame."
+        },
+        "touchPadPressed": {
+            "returns": "boolean",
+            "args": "button:Dynamic",
+            "documentation": "Returns whether a touchpad button is currently being held."
+        },
+        "touchPadJustReleased": {
+            "returns": "boolean",
+            "args": "button:Dynamic",
+            "documentation": "Returns whether a touchpad button was just released in this frame."
+        },
+        "touchPadReleased": {
+            "returns": "boolean",
+            "args": "button:Dynamic",
+            "documentation": "Returns whether a touchpad button is not being pressed (released)."
+        },
+        "touchJustPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the screen was just touched in this frame."
+        },
+        "touchPressed": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the screen is currently being touched."
+        },
+        "touchJustReleased": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the screen touch was just released in this frame."
+        },
+        "touchReleased": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the screen is not being touched (released)."
+        },
+        "touchPressedObject": {
+            "returns": "boolean",
+            "args": "object:String, ?camera:String",
+            "documentation": "Returns whether a specific object is being touched."
+        },
+        "touchJustPressedObject": {
+            "returns": "boolean",
+            "args": "object:String, ?camera:String",
+            "documentation": "Returns whether a specific object was just touched in this frame."
+        },
+        "touchJustReleasedObject": {
+            "returns": "boolean",
+            "args": "object:String, ?camera:String",
+            "documentation": "Returns whether touch was just released from a specific object."
+        },
+        "touchReleasedObject": {
+            "returns": "boolean",
+            "args": "object:String, ?camera:String",
+            "documentation": "Returns whether a specific object is not being touched."
+        },
+        "touchOverlapsObject": {
+            "returns": "boolean",
+            "args": "object:String, ?camera:String",
+            "documentation": "Returns whether the current touch position overlaps with an object."
         },
         "objectPlayAnimation": {
             "returns": "void",
@@ -1096,35 +1371,10 @@
             "args": "group:String, index:Int",
             "documentation": "Updates the hitbox of item with index `index` in group `group`"
         },
-        "isAchievementUnlocked": {
-            "returns": "boolean",
-            "args": "name:String",
-            "documentation": "Checks if an achievement is unlocked"
-        },
-        "unlockAchievement": {
+        "updateScoreText": {
             "returns": "void",
-            "args": "name:String",
-            "documentation": "Unlocks an achievement"
-        },
-        "addAchievementScore": {
-            "returns": "void",
-            "args": "name:String, ?value:Dynamic = 1, ?saveIfNotUnlocked:Bool = true",
-            "documentation": ""
-        },
-        "setAchievementScore": {
-            "returns": "void",
-            "args": "name:String, ?value = 1, ?saveIfNotUnlocked = true",
-            "documentation": ""
-        },
-        "getAchievementScore": {
-            "returns": "?",
-            "args": "name:String",
-            "documentation": ""
-        },
-        "achievementExists": {
-            "returns": "boolean",
-            "args": "name:String",
-            "documentation": "Checks if an achievement exists"
+            "args": "",
+            "documentation": "Updates displayed score text."
         },
         "getModSetting": {
             "returns": "?",
@@ -1151,21 +1401,6 @@
             "args": "tag:String, name:String, symbol:String, ?indices:Any = null, ?framerate:Float = 24, ?loop:Bool = false, ?matX:Float = 0, ?matY:Float = 0",
             "documentation": "Adds sprite's animation by specific indices from a symbol"
         },
-        "setTextHeight": {
-            "returns": "void",
-            "args": "tag:String, height:Int",
-            "documentation": "Sets the height of specified text"
-        },
-        "setTextAutoSize": {
-            "returns": "void",
-            "args": "tag:String, value:Bool",
-            "documentation": ""
-        },
-        "removeHScript": {
-            "returns": "boolean",
-            "args": "luaFile:String, ?ignoreAlreadyRunning:Bool = false",
-            "documentation": ""
-        },
         "instanceArg": {
             "returns": "string",
             "args": "instanceName:String, ?className:String = null",
@@ -1185,9 +1420,97 @@
             "returns": "number",
             "documentation": "Stops function"
         },
+        "Function_StopHScript": {
+            "returns": "number",
+            "documentation": "Stops the function from being called only in the next HScripts."
+        },
+        "Function_StopAll": {
+            "returns": "number",
+            "documentation": "Stops the function from being called in the next Lua Scripts and HScripts."
+        },
+        "shadowVersion": {
+            "returns": "string",
+            "documentation": "Shadow Engine's Version String."
+        },
+        "loadedSongName": {
+            "returns": "string",
+            "documentation": "Song name from Freeplay/Story Menu."
+        },
+        "loadedSongPath": {
+            "returns": "string",
+            "documentation": "Formatted version of loadedSongName, all letters in lowercase and replacing spaces with hyphens."
+        },
+        "chartPath": {
+            "returns": "string",
+            "documentation": "Directory of the chart, including the file extension."
+        },
+        "difficultyNameTranslation": {
+            "returns": "string",
+            "documentation": "Translated Difficulty Name."
+        },
+        "modFolder": {
+            "returns": "string",
+            "documentation": "Mod Folder the Lua Script is running in."
+        },
+        "deaths": {
+            "returns": "number",
+            "documentation": "How many times you died so far."
+        },
+        "totalPlayed": {
+            "returns": "number",
+            "documentation": "Misses + Hits, used for rating calculation."
+        },
+        "totalNotesHit": {
+            "returns": "number",
+            "documentation": "Accumulated score from hit ratings used for rating calculation."
+        },
+        "guitarHeroSustains": {
+            "returns": "boolean",
+            "documentation": "Default value: true"
+        },
+        "mobileC": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the game is currently running on a mobile device."
+        },
+        "mobileControlsMode": {
+            "returns": "string",
+            "args": "",
+            "documentation": "Returns the current mobile controls mode as a string."
+        },
+        "isDolbyAtmos": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the device supports Dolby Atmos audio."
+        },
+        "isAndroidTV": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the device is an Android TV."
+        },
+        "isTablet": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the device is a tablet."
+        },
+        "isChromebook": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the device is a Chromebook."
+        },
+        "isDeXMode": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether Samsung DeX mode is active."
+        },
         "altAnim": {
             "returns": "boolean",
             "documentation": "Tells if the current section is a `Alt Animation` Section (from Chart Editor)"
+        },
+        "isScreenKeyboardShown": {
+            "returns": "boolean",
+            "args": "",
+            "documentation": "Returns whether the on-screen keyboard is currently visible."
         },
         "botPlay": {
             "returns": "boolean",
