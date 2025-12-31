@@ -151,18 +151,6 @@ export async function activateHx(context: vscode.ExtensionContext) {
 			return new vscode.Location(vscode.Uri.file(destPath), destPos);
 		},
 	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("shadowVSCode.updatelibs", _ => {
-		updateLibs(vscode.window.activeTerminal ?? vscode.window.createTerminal());
-	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("shadowVSCode.updatelibsnofunkin", _ => {
-		updateLibs(vscode.window.activeTerminal ?? vscode.window.createTerminal(), 'funkin');
-	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("shadowVSCode.updatefunkin", _ => {
-		updateLib('funkin', vscode.window.activeTerminal ?? vscode.window.createTerminal());
-	}));
 }
 
 async function showWarnings(output: string) {
