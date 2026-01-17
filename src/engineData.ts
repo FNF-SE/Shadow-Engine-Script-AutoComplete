@@ -20,7 +20,7 @@ function getLuaEngine(document?: vscode.TextDocument | undefined): string | unde
 			return getLineContentAt(text, index).trim().split("=")[1];
 	}
 
-	return vscode.workspace.getConfiguration().get("funkinVSCode.engine");
+	return vscode.workspace.getConfiguration().get("shadowVSCode.engine");
 }
 
 // ======================
@@ -59,10 +59,10 @@ export async function getData(file: string): Promise<string | any> {
 }
 
 async function getOnlineData(file: string): Promise<any | undefined> {
-	if (vscode.workspace.getConfiguration().get("funkinVSCode.offlineMode"))
+	if (vscode.workspace.getConfiguration().get("shadowVSCode.offlineMode"))
 		return undefined;
 
-	const response = await needle("get", vscode.workspace.getConfiguration().get<string>("funkinVSCode.onlineDataURL") + file);
+	const response = await needle("get", vscode.workspace.getConfiguration().get<string>("shadowVSCode.onlineDataURL") + file);
 
 	// If failed, skip
 	if (response.statusCode != 200)

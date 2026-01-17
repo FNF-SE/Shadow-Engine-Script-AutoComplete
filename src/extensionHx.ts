@@ -151,18 +151,6 @@ export async function activateHx(context: vscode.ExtensionContext) {
 			return new vscode.Location(vscode.Uri.file(destPath), destPos);
 		},
 	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("funkinVSCode.updatelibs", _ => {
-		updateLibs(vscode.window.activeTerminal ?? vscode.window.createTerminal());
-	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("funkinVSCode.updatelibsnofunkin", _ => {
-		updateLibs(vscode.window.activeTerminal ?? vscode.window.createTerminal(), 'funkin');
-	}));
-
-	context.subscriptions.push(vscode.commands.registerCommand("funkinVSCode.updatefunkin", _ => {
-		updateLib('funkin', vscode.window.activeTerminal ?? vscode.window.createTerminal());
-	}));
 }
 
 async function showWarnings(output: string) {
@@ -297,7 +285,7 @@ async function execCommand(document: vscode.TextDocument, position: vscode.Posit
 
 	let libs: Array<string> = [];
 
-	(vscode.workspace.getConfiguration().get("funkinVSCode.haxelibs") as Array<string>).forEach(async lib => {
+	(vscode.workspace.getConfiguration().get("shadowVSCode.haxelibs") as Array<string>).forEach(async lib => {
 		libs.push('-L', lib.split(" ")[0]);
 	});
 
@@ -313,10 +301,10 @@ async function execCommand(document: vscode.TextDocument, position: vscode.Posit
 
 	let funkinPath = spawnSync('haxelib', ['path', 'funkin']).output.join("").split("\n")[0];
 	if (funkinPath.startsWith("Error:")) {
-		const selection = await vscode.window.showErrorMessage("\nTo use the completion you need to setup Funkin directory first!", 'Install Library');
+		const selection = await vscode.window.showErrorMessage("\nTo use the completion you need to setup Shadow Engine directory first!", 'Install Library');
 
 		if (selection == "Install Library") {
-			vscode.commands.executeCommand('funkinVSCode.updatefunkin');
+			vscode.commands.executeCommand('shadowVSCode.updatefunkin');
 		}
 		return;
 	}
@@ -365,12 +353,12 @@ async function execCommand(document: vscode.TextDocument, position: vscode.Posit
 }
 
 function getHScriptExtension(): string {
-	return "." + vscode.workspace.getConfiguration().get("funkinVSCode.hscriptFileExtension") as string;
+	return "." + vscode.workspace.getConfiguration().get("shadowVSCode.hscriptFileExtension") as string;
 }
 
 function updateLib(lib: string, terminal: vscode.Terminal) {
 	let swagCommand = "haxelib install " + lib;
-	(vscode.workspace.getConfiguration().get("funkinVSCode.haxelibs") as Array<string>).forEach(clib => {
+	(vscode.workspace.getConfiguration().get("shadowVSCode.haxelibs") as Array<string>).forEach(clib => {
 		const libProps = clib.split(" ");
 		if (libProps[0] == lib && libProps[1]) {
 			if (libProps[1].startsWith("http")) {
@@ -402,7 +390,7 @@ function updateLib(lib: string, terminal: vscode.Terminal) {
 
 function updateLibs(terminal: vscode.Terminal, ignore?: string) {
 	let commands: Array<string> = [];
-	(vscode.workspace.getConfiguration().get("funkinVSCode.haxelibs") as Array<string>).forEach(clib => {
+	(vscode.workspace.getConfiguration().get("shadowVSCode.haxelibs") as Array<string>).forEach(clib => {
 		const libProps = clib.split(" ");
 		let swagCommand = "haxelib install " + libProps[0];
 		if (libProps[1]) {

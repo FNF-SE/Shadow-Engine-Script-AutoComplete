@@ -1,15 +1,15 @@
 {
-	"name": "funkin-script-autocompleter",
-	"displayName": "Funkin Script AutoCompleter",
-	"description": "AutoCompleter for Friday Night Funkin` scripts",
-	"version": "2.0.1",
+	"name": "shadow-engine-script-autocompleter",
+	"displayName": "Shadow Engine Script AutoCompleter",
+	"description": "AutoCompleter for Shadow Engine scripts",
+	"version": "0.0.1",
 	"icon": "images/icon.png",
-	"publisher": "Snirozu",
+	"publisher": "FNF-SE",
 	"private": true,
-	"license": "Apache-2.0",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Snirozu/Funkin-Script-AutoComplete"
+		"url": "https://github.com/FNF-SE/Shadow-Engine-Script-AutoComplete"
 	},
 	"engines": {
 		"vscode": "^1.32.0"
@@ -41,78 +41,37 @@
 	},
 	"contributes": {
 		"configuration": {
-			"title": "Funkin Script AutoComplete",
+			"title": "Shadow Engine Script AutoComplete",
 			"properties": {
-				"funkinVSCode.engine": {
+				"shadowVSCode.engine": {
 					"type": "string",
-					"default": "psych_latest",
-					"description": "Which Friday Night Funkin' Engine Lua Script API will this extension autocomplete.\nRequires Restart/Reload to take effect."
+					"default": "shadowengine",
+					"description": "Which Shadow Engine Lua Script API will this extension autocomplete.\nRequires Restart/Reload to take effect."
 				},
-				"funkinVSCode.data": {
+				"shadowVSCode.data": {
 					"type": "string",
 					"default": "./data/",
 					"description": "Path to the local folder containing all of the API Data for the different engines."
 				},
-				"funkinVSCode.onlineDataURL": {
+				"shadowVSCode.onlineDataURL": {
 					"type": "string",
-					"default": "https://codeberg.org/Snirozu/Funkin-Script-AutoComplete/raw/branch/master/data/",
+					"default": "https://github.com/FNF-SE/Shadow-Engine-Script-AutoComplete/raw/master/data/",
 					"description": "URL path to the online folder which contains all of the API Data for the different engines."
 				},
-				"funkinVSCode.enableOnlyOnCertainScripts": {
-					"type": "boolean",
-					"default": false,
-					"description": "If checked, this extension will only work if a Lua script contains '---@funkinScript' comment"
-				},
-				"funkinVSCode.eventDocumentationGeneration": {
+				"shadowVSCode.eventDocumentationGeneration": {
 					"type": "boolean",
 					"default": false,
 					"description": "If checked, after entering a event function, placeholder arguments are inserted on top of the function"
 				},
-				"funkinVSCode.functionArgumentsGeneration": {
+				"shadowVSCode.functionArgumentsGeneration": {
 					"type": "boolean",
 					"default": false,
 					"description": "If checked, after entering a call function, default values of arguments are inserted inside of the function"
 				},
-				"funkinVSCode.offlineMode": {
+				"shadowVSCode.offlineMode": {
 					"type": "boolean",
 					"default": false,
 					"description": "If checked, the completion data will no longer update with the online iteration"
-				},
-				"funkinVSCode.haxeEnabled": {
-					"type": "boolean",
-					"default": false,
-					"description": "If checked, haxe completion will be enabled for V-Slice (EXPERIMENTAL)\nRequires Restart/Reload to take effect."
-				},
-				"funkinVSCode.hscriptFileExtension": {
-					"type": "string",
-					"default": "hxc",
-					"description": "The associating file extension for Friday Night Funkin' scripts (EXPERIMENTAL)"
-				},
-				"funkinVSCode.haxelibs": {
-					"type": "array",
-					"default": [
-						"funkin https://github.com/FunkinCrew/Funkin main source/",
-						"funkin.vis https://github.com/FunkinCrew/funkVis",
-						"flixel",
-						"flixel-addons",
-						"flixel-text-input",
-						"flixel-ui",
-						"flxanimate",
-						"format",
-						"hamcrest",
-						"haxeui-core",
-						"haxeui-flixel",
-						"hscript https://github.com/HaxeFoundation/hscript",
-						"hxCodec",
-						"json2object",
-						"lime",
-						"openfl",
-						"polymod",
-						"thx.semver",
-						"thx.core",
-						"FlxPartialSound https://github.com/FunkinCrew/FlxPartialSound.git"
-					],
-					"description": "The Haxelibs you want to use\nRequires VSCode Restart to take effect! (EXPERIMENTAL)"
 				}
 			}
 		},
@@ -120,28 +79,11 @@
 			{
 				"id": "haxe",
 				"extensions": [
-					"hxc"
+					"hx"
 				]
 			}
 		],
-		"commands": [
-			{
-				"command": "funkinVSCode.clearCache",
-				"title": "Clear Cache for Engine API Data (EXPERIMENTAL)"
-			},
-			{
-				"command": "funkinVSCode.updatelibs",
-				"title": "Update Haxelibs for Funkin Scripts (EXPERIMENTAL)"
-			},
-			{
-				"command": "funkinVSCode.updatelibsnofunkin",
-				"title": "Update Haxelibs for Funkin Scripts (Excluding Funkin Lib) (EXPERIMENTAL)"
-			},
-			{
-				"command": "funkinVSCode.updatefunkin",
-				"title": "Update Funkin API library"
-			}
-		]
+		"commands": []
 	},
 	"dependencies": {
 		"@types/needle": "^3.2.0",

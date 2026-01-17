@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install dependencies
         run: npm i
@@ -29,5 +29,5 @@ jobs:
       - name: Publish VS Code extension artifact
         uses: actions/upload-artifact@v4
         with:
-            name: funkin-completer-build
+            name: shadow-engine-completer-build
             path: ${{ steps.package.outputs.packagePath }}

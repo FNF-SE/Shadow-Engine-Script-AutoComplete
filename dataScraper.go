@@ -49,7 +49,7 @@ func main() {
 		Events: map[string]Event{},
 	}
 
-	engineData, err := os.ReadFile("data/psych_0.7.json")
+	engineData, err := os.ReadFile("data/shadowengine.json")
 	if err == nil {
 		// pointer jumpscare
 		json.Unmarshal(engineData, &engineJsonData)

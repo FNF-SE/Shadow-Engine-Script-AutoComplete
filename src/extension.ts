@@ -15,7 +15,7 @@ let outputChannel: vscode.OutputChannel;
 
 export async function activate(context: vscode.ExtensionContext) {
 
-	let path = vscode.workspace.getConfiguration().get<string>("funkinVSCode.data") || "./data/";
+	let path = vscode.workspace.getConfiguration().get<string>("shadowVSCode.data") || "./data/";
 
 	dataPath = context.asAbsolutePath(path);
 
@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(diagnosticCollection);
 
 	// activate haxe completion
-	if (vscode.workspace.getConfiguration().get("funkinVSCode.haxeEnabled")) {
+	if (vscode.workspace.getConfiguration().get("shadowVSCode.haxeEnabled")) {
 		activateHx(context);
 	}
 
@@ -78,7 +78,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 				let labelArgs: Array<string> = [];
 				let completeArgs: Array<string> = [];
-				const doInsertArguments = vscode.workspace.getConfiguration().get("funkinVSCode.functionArgumentsGeneration");
+				const doInsertArguments = vscode.workspace.getConfiguration().get("shadowVSCode.functionArgumentsGeneration");
 				const args = getArgArgParts(func.args);
 				args.forEach((arg, _) => {
 					labelArgs.push(arg.name);
@@ -244,7 +244,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				let daArgs: Array<string> = [];
 
 				const args = getArgArgParts(event.args);
-				const doAppendComments = vscode.workspace.getConfiguration().get("funkinVSCode.eventDocumentationGeneration");
+				const doAppendComments = vscode.workspace.getConfiguration().get("shadowVSCode.eventDocumentationGeneration");
 				let daComment: string = doAppendComments && args.length > 0 ? "---" : "";
 				args.forEach((arg, i) => {
 					if (doAppendComments) {
@@ -344,7 +344,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	));
 
-	context.subscriptions.push(vscode.commands.registerCommand("funkinVSCode.clearCache", _ => {
+	context.subscriptions.push(vscode.commands.registerCommand("shadowVSCode.clearCache", _ => {
 		EngineData.CACHED.clear();
 	}));
 
@@ -465,7 +465,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	}, null, context.subscriptions);
 
 	vscode.workspace.onDidChangeConfiguration(event => {
-		if (event.affectsConfiguration('funkinVSCode.offlineMode') || event.affectsConfiguration('funkinVSCode.onlineDataURL')) {
+		if (event.affectsConfiguration('shadowVSCode.offlineMode') || event.affectsConfiguration('shadowVSCode.onlineDataURL')) {
 			EngineData.CACHED.clear();
 		}
 	}, null, context.subscriptions);
@@ -474,7 +474,7 @@ export async function activate(context: vscode.ExtensionContext) {
 }
 
 function isEnabled(document: vscode.TextDocument) {
-	if (vscode.workspace.getConfiguration().get("funkinVSCode.enableOnlyOnCertainScripts") && document.getText().indexOf("---@funkinScript") == -1) {
+	if (vscode.workspace.getConfiguration().get("shadowVSCode.enableOnlyOnCertainScripts") && document.getText().indexOf("---@funkinScript") == -1) {
 		return false;
 	}
 	return true;
